@@ -1,0 +1,7 @@
+__pycache__
+.ipynb_checkpoints
+*.png
+/data/models
+/data/tokyo
+/data/neotokyo
+*.pkl
