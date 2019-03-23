@@ -1,9 +1,11 @@
 __pycache__
 .ipynb_checkpoints
-*.png
+checkpoints_cyclegan
+
+/data/gif/output_frames
 /data/models
 /data/tokyo
 /data/neotokyo
-/data/gif/output_frames
-*.pkl
+
+samples_cyclegan
 image_list.txt
