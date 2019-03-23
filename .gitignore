@@ -4,4 +4,6 @@ __pycache__
 /data/models
 /data/tokyo
 /data/neotokyo
+/data/gif/output_frames
 *.pkl
+image_list.txt

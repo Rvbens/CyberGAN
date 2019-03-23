@@ -15,6 +15,7 @@ import torch
 
 # numpy & scipy imports
 import numpy as np
+import math
 import scipy
 import scipy.misc
 
@@ -32,6 +33,7 @@ def checkpoint(iteration, G_XtoY, G_YtoX, D_X, D_Y, checkpoint_dir='checkpoints_
     torch.save(D_Y.state_dict(), D_Y_path)
 
 
+
 def merge_images(sources, targets, batch_size=16):
     """Creates a grid consisting of pairs of columns, where the first column in
         each pair contains images source images and the second column in each pair
@@ -39,16 +41,18 @@ def merge_images(sources, targets, batch_size=16):
         the first column.
         """
     _, _, h, w = sources.shape
-    row = int(np.sqrt(batch_size))
-    merged = np.zeros([3, row*h, row*w*2])
+    img_total = batch_size*2
+    row = math.ceil(np.sqrt(img_total))
+    merged = np.zeros([3, row*h, row*w])
+    indices = [(i,j) for i in range(4) for j in range(0,4,2)]
+    
     for idx, (s, t) in enumerate(zip(sources, targets)):
-        i = idx // row
-        j = idx % row
-        merged[:, i*h:(i+1)*h, (j*2)*h:(j*2+1)*h] = s
-        merged[:, i*h:(i+1)*h, (j*2+1)*h:(j*2+2)*h] = t
+        i,j = indices[idx]
+        
+        merged[:, i*h:(i+1)*h, j*h:(j+1)*h] = s
+        merged[:, i*h:(i+1)*h, (j+1)*h:(j+2)*h] = t
     merged = merged.transpose(1, 2, 0)
     return merged
-    
 
 def to_data(x):
     """Converts variable to numpy."""
